@@ -1,0 +1,47 @@
+use rand::Rng;  // Для генерації випадкових чисел
+
+// Функція генерує випадковий вектор довжиною n зі значеннями в діапазоні [10..99]
+fn gen_random_vector(n: usize) -> Vec<i32> {
+    let mut rng = rand::thread_rng();
+    (0..n)
+        .map(|_| rng.gen_range(10..100))
+        .collect()
+}
+
+// Функція знаходить мінімальну суму сусідніх елементів у векторі
+fn min_adjacent_sum(data: &[i32]) -> Option<i32> {
+    if data.len() < 2 {
+        return None;
+    }
+
+    let mut min_sum = i32::MAX;
+
+    for i in 0..data.len() - 1 {
+        let sum = data[i] + data[i + 1];
+        min_sum = min_sum.min(sum);
+    }
+
+    Some(min_sum)
+}
+
+// Функція для виведення вектора у зрозумілому вигляді
+fn print_vector_in_format(data: &[i32]) {
+    println!("Вектор елементів:");
+    for (index, &value) in data.iter().enumerate() {
+        println!("Елемент {}: {}", index + 1, value);
+    }
+}
+
+fn main() {
+    // Генерація випадкового вектора довжиною 20
+    let random_vector = gen_random_vector(20);
+
+    // Виведення вектора у зрозумілому вигляді
+    print_vector_in_format(&random_vector);
+
+    // Знаходимо мінімальну суму сусідніх елементів
+    match min_adjacent_sum(&random_vector) {
+        Some(min_sum) => println!("\nМінімальна сума сусідніх елементів: {}", min_sum),
+        None => println!("\nВектор занадто малий для обчислення мінімальної суми."),
+    }
+}
